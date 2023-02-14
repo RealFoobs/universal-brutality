@@ -1,0 +1,104 @@
+; Femur L
+[Begin Action 2000]
+11012,6, 0,0, -1
+
+; Femur R
+[Begin Action 2001]
+11012,9, 0,0, -1
+
+; Humerus L
+[Begin Action 2002]
+11012,11, 0,0, -1
+
+; Humerus R
+[Begin Action 2003]
+11012,12, 0,0, -1
+
+; Pelvic girdle
+[Begin Action 2004]
+11012,14, 0,0, -1
+
+; Skull
+[Begin Action 2005]
+11012,17, 0,0, -1
+
+; Large intestine
+[Begin Action 2006]
+11012,10, 0,0, -1
+
+; Small intestine 1
+[Begin Action 2007]
+11012,3, 0,0, -1
+
+; Small intestine 2
+[Begin Action 2008]
+11012,13, 0,0, -1
+
+; Liver
+[Begin Action 2009]
+11012,15, 0,0, -1
+
+; Lung L
+[Begin Action 2010]
+11012,8, 0,0, -1
+
+; Lung R
+[Begin Action 2011]
+11012,16, 0,0, -1
+
+; Hand L
+[Begin Action 2012]
+11012,19, 0,0, -1
+
+; Hand R
+[Begin Action 2013]
+11012,18, 0,0, -1
+
+; Shin L
+[Begin Action 2014]
+11012,0, 0,0, -1
+
+; Shin R
+[Begin Action 2015]
+11012,1, 0,0, -1
+
+; Tighs L
+[Begin Action 2016]
+11012,4, 0,0, -1
+
+; Tighs R
+[Begin Action 2017]
+11012,5, 0,0, -1
+
+; Big chunk L
+[Begin Action 2018]
+11012,7, 0,0, -1
+
+; Big chunk R
+[Begin Action 2019]
+11012,2, 0,0, -1
+
+; Blood splat 1
+[Begin Action 2032]
+11010,85, 0,0, 2
+11010,86, 0,0, 2
+11010,87, 0,0, 2
+11010,88, 0,0, 2
+11010,89, 0,0, 2
+11010,90, 0,0, 2
+
+; Blood splat 2
+[Begin Action 2033]
+Loopstart
+11010,45, 0,0, 3
+11010,46, 0,0, 3
+
+
+; Blood splat 3
+[Begin Action 2034]
+11010,47, 0,0, 3
+11010,48, 0,0, 3
+11010,49, 0,0, 3
+11010,50, 0,0, 3
+11010,51, 0,0, 3
+11010,52, 0,0, -1

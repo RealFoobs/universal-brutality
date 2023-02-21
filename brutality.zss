@@ -1,30 +1,33 @@
 [function bloodstorm ()]
 angledraw{}
-if pos y = 0 { assertspecial{flag:noshadow} }
-
-# explosion
+if pos y >= 0 { assertspecial{flag:noshadow;} }
+	# explosion
 if time = 0 { 
 	map(brutality_rotation):= (-6+random%13);
-	velset{x:const240p(-3+random%7); y:const240p(-14+random%9);}
-	sprpriority{value:-5+random%11}
+	veladd{
+		x:(root,gethitvar(xvel) * 0.25 * root,facing) + const240p(4-random%9);
+		y:(root,gethitvar(yvel) * 0.40) + const240p(3-random%12);
+		}
+	sprpriority{value:-5+random%11;}
 	}
-# rotation and gravity
+	# rotation and gravity
 if time > 0 && pos y < 0  {
-	angleadd{value:map(brutality_rotation)}
+	angleadd{value:map(brutality_rotation);}
 	gravity{}
 	}
-# bounce and landing
-if vel y > 2 && pos y >= 0 { 
-	velset{x:const240p(0.6 * vel x); y:const240p(-0.6 * vel y)}
+	# bounce and landing
+if vel y >= const240p(2) && pos y >= 0 { 
 	posset{y:0}
+	velset{x:0.5 * vel x; y:-0.6 * vel y}
 	}
-else if vel y > 0 && pos y >= 0 {
-	velset{x:0; y:0}
+else if vel y >= 0 && pos y >= 0 {
 	posset{y:0}
+	velset{x:0; y:0}
 	}
 
 [function lethal_grab()f]
 let f = 0;
+	# checks if the character is in a special/super throw state (silly mugen naming conventions...)
 if gethitvar(attr) = const(AttrStandingSpecialThrow)
 || gethitvar(attr) = const(AttrCrouchingSpecialThrow)
 || gethitvar(attr) = const(AttrAerialSpecialThrow)
@@ -93,13 +96,14 @@ call bloodstorm();
 [statedef 108019; type: S; movetype: I; physics: N; anim: GIB2019;]
 call bloodstorm();
 
-# Blood
+	# blood explosion
 [statedef 108032; type: S; movetype: I; physics: N; anim: GIB2032;]
 sprpriority{value:3}
 velset{y:-5}
 gravity{}
 if animelem = 6,>=2 { changestate{value:108033} }
 
+	# blood splat
 [statedef 108033; type: S; movetype: I; physics: N; anim: GIB2034;]
 posset{y:0;}
 velset{x:0; y:0}
@@ -109,52 +113,53 @@ sprpriority{value:-5}
 if roundstate = 0 { map(brutality_flag):= 0; }
 if p2bodydist x != 0 { map(brutality_distance) := (p2bodydist x**2 + p2bodydist y**2)**0.5; }
 
-if ctrl {
-	map(brutality_overkill) := 0; 
-	}
-else { 
-	map(brutality_overkill) := map(brutality_overkill) + gethitvar(hitdamage);
-	}
+	# keeps track of how much damage the character receives while in hitstun
+if ctrl { map(brutality_overkill) := 0; }
+else { map(brutality_overkill) := map(brutality_overkill) + gethitvar(hitdamage); }
+
+	# checks if the current round is a match point, the character is dead, and had if it had either enough overkill or was in a special/super throw state
 let g = call lethal_grab();
-if !life && (map(brutality_overkill) > 1 || $g) {
+if roundtype > 1 && !alive && (map(brutality_overkill) > 1 || $g) {
+	# vanish
 	assertspecial{flag:invisible}
 	nothitby{value:SCA}
 	if !map(brutality_flag) {
-		# gibs
-		helper{stateno: 108000; pos: const(mid.pos); name:"femur"; }
-		helper{stateno: 108001; pos: const(mid.pos); name:"femur"; }
-		helper{stateno: 108002; pos: const(mid.pos); name:"humerus";}
-		helper{stateno: 108003; pos: const(mid.pos); name:"humerus"}
-		helper{stateno: 108004; pos: const(mid.pos); name:"pelvic girdle"}
-		helper{stateno: 108005; pos: const(mid.pos); name:"skull"}
-		helper{stateno: 108006; pos: const(mid.pos); name:"large intestine"}
-		helper{stateno: 108007; pos: const(mid.pos); name:"small intestine"}
-		helper{stateno: 108008; pos: const(mid.pos); name:"small intestine"}
-		helper{stateno: 108009; pos: const(mid.pos); name:"liver"}
-		helper{stateno: 108010; pos: const(mid.pos); name:"lung"}
-		helper{stateno: 108011; pos: const(mid.pos); name:"lung"}
-		helper{stateno: 108012; pos: const(mid.pos); name:"hand"}
-		helper{stateno: 108013; pos: const(mid.pos); name:"hand"}
-		helper{stateno: 108014; pos: const(mid.pos); name:"shin"}
-		helper{stateno: 108015; pos: const(mid.pos); name:"shin"}
-		helper{stateno: 108016; pos: const(mid.pos); name:"thighs"}
-		helper{stateno: 108017; pos: const(mid.pos); name:"thighs"}
-		helper{stateno: 108018; pos: const(mid.pos); name:"big chunk"}
-		helper{stateno: 108019; pos: const(mid.pos); name:"big chunk"}
-		# blood, placeholder
+	# spawn gibs
+		helper{stateno: 108000; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"femur"; }
+		helper{stateno: 108001; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"femur"; }
+		helper{stateno: 108002; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"humerus";}
+		helper{stateno: 108003; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"humerus"}
+		helper{stateno: 108004; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"pelvic girdle"}
+		helper{stateno: 108005; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"skull"}
+		helper{stateno: 108006; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"large intestine"}
+		helper{stateno: 108007; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"small intestine"}
+		helper{stateno: 108008; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"small intestine"}
+		helper{stateno: 108009; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"liver"}
+		helper{stateno: 108010; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"lung"}
+		helper{stateno: 108011; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"lung"}
+		helper{stateno: 108012; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"hand"}
+		helper{stateno: 108013; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"hand"}
+		helper{stateno: 108014; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"shin"}
+		helper{stateno: 108015; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"shin"}
+		helper{stateno: 108016; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"thighs"}
+		helper{stateno: 108017; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"thighs"}
+		helper{stateno: 108018; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"big chunk"}
+		helper{stateno: 108019; pos: const(size.mid.pos.x),const(size.mid.pos.y); name:"big chunk"}
+	# spawn blood (placeholder)
 		helper{stateno: 108032; pos: 0,-const(size.height)*1/3; name:"Blood1"}
 		helper{stateno: 108032; pos: 0,-const(size.height)*2/3; name:"Blood2"}
 		helper{stateno: 108032; pos: 0,-const(size.height); name:"Blood3"}
-		# makes sure to do all of this only once
+	# makes sure to do all of this only once
 		map(brutality_flag):= 1;
-		# dead, and not airborne
+	# makes sure the character is glued to the ground to prevent bouncing
 		posset{y:0;}
 		velset{x:0;y:0;}
 		changestate{value:5150}
 		}
 	}
 	
-if enemy,map(brutality_flag) && map(brutality_distance) < 80 { 
+	# checks if the attacker is close enough to be bathed in blood, and the color of it
+ignorehitpause if enemy,map(brutality_flag) && map(brutality_distance) < const240p(80) { 
 	palfx{time:-1; add:0,0,0; 
 	mul:255+enemy,map(blood_r), 0+enemy,map(blood_g), 0+enemy,map(blood_b)} 
 	}

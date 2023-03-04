@@ -30,7 +30,6 @@
 	else if vel y >= 0 && pos y >= 0 {
 		posset{y:0}
 		velset{x:0; y:0}
-		changestate{value:108020;}
 		}
 	
 [function you_are_dead()g]

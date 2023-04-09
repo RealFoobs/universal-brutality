@@ -1,8 +1,9 @@
 [function size()s]
-	# the average male is roughly 30 units in size
-	let s = 1;
-	let a = (const(size.ground.back)+const(size.ground.front))/const240p(1);
-	if $a != (27,39) { let s = $a/32; }
+let s = 1;
+#	# the average male is roughly 30 units in size
+#	let s = 1;
+#	let a = (const(size.ground.back)+const(size.ground.front))/const240p(1);
+#	if $a != (27,39) { let s = $a/32; }
 
 [function bloodstorm()]
 	let s = call size();
@@ -37,7 +38,7 @@
 	# check if the character hasn't spawned the gibs yet
 	if numhelper(1007788) = 0 && 
 	# check if the character died under the right conditions
-	( map(brutality_overkill) > 1
+	( map(brutality_overkill) > 20
 	|| gethitvar(attr) = const(AttrStandingSpecialThrow)
 	|| gethitvar(attr) = const(AttrCrouchingSpecialThrow)
 	|| gethitvar(attr) = const(AttrAerialSpecialThrow)
@@ -204,3 +205,7 @@ ignorehitpause if roundtype > 1 && !alive && !ishelper {
 		helper{stateno: 108032; pos: 0,-const(size.height); name:"Blood3"}
 		}
 	}
+
+#map(res):= enemynear,const240p(1)/const240p(1);
+
+#if ishelper && stateno = [108000,108019] && parent,incustomstate { angledraw{scale:2,2} }

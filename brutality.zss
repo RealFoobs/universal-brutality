@@ -1,5 +1,5 @@
 [function size()s]
-let s = 1;
+let s = 1; # temporarily disabled
 #	# the average male is roughly 30 units in size
 #	let s = 1;
 #	let a = (const(size.ground.back)+const(size.ground.front))/const240p(1);
@@ -38,7 +38,7 @@ let s = 1;
 	# check if the character hasn't spawned the gibs yet
 	if numhelper(1007788) = 0 && 
 	# check if the character died under the right conditions
-	( map(brutality_overkill) > 20
+	( map(brutality_overkill) > 50 # temporary value
 	|| gethitvar(attr) = const(AttrStandingSpecialThrow)
 	|| gethitvar(attr) = const(AttrCrouchingSpecialThrow)
 	|| gethitvar(attr) = const(AttrAerialSpecialThrow)
@@ -51,25 +51,24 @@ let s = 1;
 		{
 		let g = 1;
 		}
-		
+
 [function bloodstained(h)]
 	# grab each characters' id
-	let a = playerid(getplayerid($h)),ID;
-	let b = helper(1007788),time;
-	if ID != $a && $b = 1 && abs(playerid($a),pos x - pos x) < const240p(80) { map(brutality_bloodsplat):= 1; }
+	let a = player($h),ID;
+	if ID != $a && abs(playerid($a),pos x - pos x) < const240p(80)  { map(brutality_bloodsplat):= 1; }
 	# cover them in blood	
 	if map(brutality_bloodsplat) {
-		if $b < 360 {
-			palfx{time:1; add:0,0,0; mul:255+map(blood_r), 0+map(blood_g), 0+map(blood_b); redirectid:$a}
+		if time < 360 {
+			palfx{time:1; mul:255,0,0; redirectid:$a}
 			}
 	# let the blood wash off slowly
-		else if $b = [360,720] {
-			let c = 255*($b-360)/360;
+		else if time = [360,720] {
+			let c = 255*(time-360)/360;
 			palfx{time:1; add:0,0,0; mul:255+map(blood_r)+$c, 0+map(blood_g)+$c, 0+map(blood_b)+$c; redirectid:$a}
 			}
 		else { map(brutality_bloodsplat):= 0; }
 		}
-		
+
 	# helpers for each body part
 [statedef 108000; type: S; movetype: I; physics: N; anim: GIB2000;]
 call bloodstorm();
@@ -131,7 +130,6 @@ call bloodstorm();
 [statedef 108019; type: S; movetype: I; physics: N; anim: GIB2019;]
 call bloodstorm();
 
-
 	# blood explosion
 [statedef 108032; type: S; movetype: I; physics: N; anim: GIB2032;]
 let s = call size();
@@ -159,6 +157,7 @@ ignorehitpause if roundtype > 1 && !alive && !ishelper {
 	# account for 1 tick delay to root
 	if numhelper(1007788) > 1 && helper(1007788),time > 0 {
 	# cover the other on-screen characters in blood
+		#palfx{time:1; add:0,0,0; mul:255+map(blood_r), 0+map(blood_g), 0+map(blood_b); redirectid:enemynear,ID}
 		call bloodstained(1);
 		call bloodstained(2);
 		call bloodstained(3);
@@ -205,7 +204,3 @@ ignorehitpause if roundtype > 1 && !alive && !ishelper {
 		helper{stateno: 108032; pos: 0,-const(size.height); name:"Blood3"}
 		}
 	}
-
-#map(res):= enemynear,const240p(1)/const240p(1);
-
-#if ishelper && stateno = [108000,108019] && parent,incustomstate { angledraw{scale:2,2} }

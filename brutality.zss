@@ -14,7 +14,7 @@ let s = 1; # temporarily disabled
 		map(brutality_rotation):= (-6+random%13);
 		veladd{
 			x:(root,gethitvar(xvel) * 0.25 * root,facing) + const240p(4-random%9);
-			y:(root,gethitvar(yvel) * 0.40) + const240p(3-random%12);
+			y:(root,gethitvar(yvel) * 0.40) + const240p(3-random%13);
 			}
 		sprpriority{value:-5+random%11;}
 		}
@@ -58,7 +58,7 @@ let s = 1; # temporarily disabled
 	if ID != $a && abs(playerid($a),pos x - pos x) < const240p(80)  { map(brutality_bloodsplat):= 1; }
 	# cover them in blood	
 	if map(brutality_bloodsplat) {
-		if time < 360 {
+		if time <= 360		{
 			palfx{time:1; mul:255,0,0; redirectid:$a}
 			}
 	# let the blood wash off slowly
@@ -70,68 +70,68 @@ let s = 1; # temporarily disabled
 		}
 
 	# helpers for each body part
-[statedef 108000; type: S; movetype: I; physics: N; anim: GIB2000;]
+[statedef 108000; type: U; movetype: I; physics: N; anim: GIB2000;]
 call bloodstorm();
 
-[statedef 108001; type: S; movetype: I; physics: N; anim: GIB2001;]
+[statedef 108001; type: U; movetype: I; physics: N; anim: GIB2001;]
 call bloodstorm();
 
-[statedef 108002; type: S; movetype: I; physics: N; anim: GIB2002;]
+[statedef 108002; type: U; movetype: I; physics: N; anim: GIB2002;]
 call bloodstorm();
 
-[statedef 108003; type: S; movetype: I; physics: N; anim: GIB2003;]
+[statedef 108003; type: U; movetype: I; physics: N; anim: GIB2003;]
 call bloodstorm();
 
-[statedef 108004; type: S; movetype: I; physics: N; anim: GIB2004;]
+[statedef 108004; type: U; movetype: I; physics: N; anim: GIB2004;]
 call bloodstorm();
 
-[statedef 108005; type: S; movetype: I; physics: N; anim: GIB2005;]
+[statedef 108005; type: U; movetype: I; physics: N; anim: GIB2005;]
 call bloodstorm();
 
-[statedef 108006; type: S; movetype: I; physics: N; anim: GIB2006;]
+[statedef 108006; type: U; movetype: I; physics: N; anim: GIB2006;]
 call bloodstorm();
 
-[statedef 108007; type: S; movetype: I; physics: N; anim: GIB2007;]
+[statedef 108007; type: U; movetype: I; physics: N; anim: GIB2007;]
 call bloodstorm();
 
-[statedef 108008; type: S; movetype: I; physics: N; anim: GIB2008;]
+[statedef 108008; type: U; movetype: I; physics: N; anim: GIB2008;]
 call bloodstorm();
 
-[statedef 108009; type: S; movetype: I; physics: N; anim: GIB2009;]
+[statedef 108009; type: U; movetype: I; physics: N; anim: GIB2009;]
 call bloodstorm();
 
-[statedef 108010; type: S; movetype: I; physics: N; anim: GIB2010;]
+[statedef 108010; type: U; movetype: I; physics: N; anim: GIB2010;]
 call bloodstorm();
 
-[statedef 108011; type: S; movetype: I; physics: N; anim: GIB2011;]
+[statedef 108011; type: U; movetype: I; physics: N; anim: GIB2011;]
 call bloodstorm();
 
-[statedef 108012; type: S; movetype: I; physics: N; anim: GIB2012;]
+[statedef 108012; type: U; movetype: I; physics: N; anim: GIB2012;]
 call bloodstorm();
 
-[statedef 108013; type: S; movetype: I; physics: N; anim: GIB2013;]
+[statedef 108013; type: U; movetype: I; physics: N; anim: GIB2013;]
 call bloodstorm();
 
-[statedef 108014; type: S; movetype: I; physics: N; anim: GIB2014;]
+[statedef 108014; type: U; movetype: I; physics: N; anim: GIB2014;]
 call bloodstorm();
 
-[statedef 108015; type: S; movetype: I; physics: N; anim: GIB2015;]
+[statedef 108015; type: U; movetype: I; physics: N; anim: GIB2015;]
 call bloodstorm();
 
-[statedef 108016; type: S; movetype: I; physics: N; anim: GIB2016;]
+[statedef 108016; type: U; movetype: I; physics: N; anim: GIB2016;]
 call bloodstorm();
 
-[statedef 108017; type: S; movetype: I; physics: N; anim: GIB2017;]
+[statedef 108017; type: U; movetype: I; physics: N; anim: GIB2017;]
 call bloodstorm();
 
-[statedef 108018; type: S; movetype: I; physics: N; anim: GIB2018;]
+[statedef 108018; type: U; movetype: I; physics: N; anim: GIB2018;]
 call bloodstorm();
 
-[statedef 108019; type: S; movetype: I; physics: N; anim: GIB2019;]
+[statedef 108019; type: U; movetype: I; physics: N; anim: GIB2019;]
 call bloodstorm();
 
 	# blood explosion
-[statedef 108032; type: S; movetype: I; physics: N; anim: GIB2032;]
+[statedef 108032; type: U; movetype: I; physics: N; anim: GIB2032;]
 let s = call size();
 angledraw{scale:$s,$s;}
 sprpriority{value:3}
@@ -140,7 +140,7 @@ gravity{}
 if animelem = 6,>=2 { changestate{value:108033} }
 
 	# blood splat
-[statedef 108033; type: S; movetype: I; physics: N; anim: GIB2034;]
+[statedef 108033; type: U; movetype: I; physics: N; anim: GIB2034;]
 posset{y:0;}
 velset{x:0; y:0}
 sprpriority{value:-5}
@@ -155,9 +155,8 @@ let s = call size();
 
 ignorehitpause if roundtype > 1 && !alive && !ishelper {
 	# account for 1 tick delay to root
-	if numhelper(1007788) > 1 && helper(1007788),time > 0 {
+	if numhelper(1007788) {
 	# cover the other on-screen characters in blood
-		#palfx{time:1; add:0,0,0; mul:255+map(blood_r), 0+map(blood_g), 0+map(blood_b); redirectid:enemynear,ID}
 		call bloodstained(1);
 		call bloodstained(2);
 		call bloodstained(3);

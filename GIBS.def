@@ -3,7 +3,7 @@
 ; You can disable this file from fight.def
 [Info]
 prefix = GIB; This prefix is to used instead of "F" when calling animations or sounds from this file.
-fx.scale = 4
+localcoord = 320,240
 
 [Files]
 sff = GIBS.sff; Complementary to fightfx.sff
